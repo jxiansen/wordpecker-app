@@ -9,12 +9,12 @@ import {
   Stack, 
   HStack, 
   Badge, 
-  keyframes, 
   IconButton,
   useToast,
   Spinner,
   Center
 } from '@chakra-ui/react';
+import { keyframes } from '@chakra-ui/system';
 import { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';

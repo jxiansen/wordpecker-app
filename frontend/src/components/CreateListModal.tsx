@@ -15,7 +15,6 @@ import {
   useToast,
   Text,
   Box,
-  keyframes,
   Tooltip,
   Flex,
   Icon
@@ -24,6 +23,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { InfoIcon } from '@chakra-ui/icons';
 import { GiTreeBranch, GiTreeRoots } from 'react-icons/gi';
+import { keyframes } from '@chakra-ui/system';
 
 const sparkle = keyframes`
   0% { transform: scale(1) rotate(0deg); }

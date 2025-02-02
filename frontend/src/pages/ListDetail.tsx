@@ -3,7 +3,6 @@ import {
   Button, 
   Text, 
   Flex, 
-  keyframes, 
   IconButton, 
   useDisclosure, 
   Container, 
@@ -14,6 +13,7 @@ import {
   Center
 } from '@chakra-ui/react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { keyframes } from '@chakra-ui/system';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Word, WordList } from '../types';

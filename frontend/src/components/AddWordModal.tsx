@@ -14,10 +14,10 @@ import {
   useToast,
   Text,
   Box,
-  keyframes,
   Flex,
   Icon
 } from '@chakra-ui/react';
+import { keyframes } from '@chakra-ui/system';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaSearch } from 'react-icons/fa';

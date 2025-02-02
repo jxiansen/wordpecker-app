@@ -7,7 +7,6 @@ import {
   Icon,
   Text,
   useDisclosure,
-  keyframes,
   VStack,
   Badge,
   SimpleGrid,
@@ -15,6 +14,7 @@ import {
   Spinner,
   Center
 } from '@chakra-ui/react';
+import { keyframes } from '@chakra-ui/system';
 import { motion } from 'framer-motion';
 import { GiTreeBranch } from 'react-icons/gi';
 import { FaPlus, FaGamepad, FaBook, FaFeatherAlt, FaEye } from 'react-icons/fa';

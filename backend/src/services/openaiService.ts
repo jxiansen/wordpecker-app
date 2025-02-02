@@ -1,5 +1,5 @@
-import { llm } from '../config/openai';
-import { Exercise, Question } from '../types';
+import { llm } from "../config/openai";
+import { Exercise, Question } from "../types";
 
 export const openaiService = {
   async generateWordMeaning(word: string, context?: string): Promise<string> {
@@ -11,25 +11,35 @@ export const openaiService = {
       messages: [
         {
           role: "system",
-          content: "You are a helpful language learning assistant. Provide clear, concise definitions suitable for language learners."
+          content:
+            "You are a helpful language learning assistant. Provide clear, concise definitions suitable for language learners.",
         },
         {
           role: "user",
-          content: prompt
-        }
+          content: prompt,
+        },
       ],
       temperature: 0.7,
-      max_tokens: 100
+      max_tokens: 100,
     });
 
-    return response.choices[0].message.content?.trim() || 'No definition available';
+    return (
+      response.choices[0].message.content?.trim() || "No definition available"
+    );
   },
 
-  async createExercises(words: Array<{ id: string; value: string; meaning: string }>, context?: string): Promise<Exercise[]> {
-    const prompt = `Create vocabulary-focused multiple choice exercises for these words. ${context ? `The words appear in the context of "${context}". Use this context to enrich the exercises with relevant examples or scenarios, but ensure questions test the word's general meaning and usage.` : ''}
+  async createExercises(
+    words: Array<{ id: string; value: string; meaning: string }>,
+    context?: string
+  ): Promise<Exercise[]> {
+    const prompt = `Create vocabulary-focused multiple choice exercises for these words. ${
+      context
+        ? `The words appear in the context of "${context}". Use this context to enrich the exercises with relevant examples or scenarios, but ensure questions test the word's general meaning and usage.`
+        : ""
+    }
 
 Words to create exercises for:
-${words.map(word => `${word.value}: ${word.meaning}`).join('\n')}
+${words.map((word) => `${word.value}: ${word.meaning}`).join("\n")}
 
 Instructions:
 1. Create one multiple choice question for each word
@@ -64,32 +74,38 @@ Ensure the response is a valid JSON object with all required fields.`;
       messages: [
         {
           role: "system",
-          content: "You are a vocabulary learning exercise generator. Create exercises that test word comprehension using context-relevant examples, but never test the context itself. The goal is to help users understand words through familiar scenarios."
+          content:
+            "You are a vocabulary learning exercise generator. Create exercises that test word comprehension using context-relevant examples, but never test the context itself. The goal is to help users understand words through familiar scenarios.",
         },
         {
           role: "user",
-          content: prompt
-        }
+          content: prompt,
+        },
       ],
       temperature: 0.8,
-      max_tokens: 1000
+      max_tokens: 1000,
     });
 
     try {
       const content = response.choices[0].message.content;
-      if (!content) throw new Error('No content in response');
-      
+      if (!content) throw new Error("No content in response");
+
       const parsed = JSON.parse(content);
       return parsed.exercises || [];
     } catch (error) {
-      console.error('Error parsing exercises response:', error);
+      console.error("Error parsing exercises response:", error);
       return [];
     }
   },
 
-  async createQuizQuestions(words: Array<{ id: string; value: string; meaning: string }>, context?: string): Promise<Question[]> {
-    const prompt = `Create challenging quiz questions for these words${context ? ` in the context of ${context}` : ''}:
-${words.map(w => `- ${w.value}: ${w.meaning}`).join('\n')}
+  async createQuizQuestions(
+    words: Array<{ id: string; value: string; meaning: string }>,
+    context?: string
+  ): Promise<Question[]> {
+    const prompt = `Create challenging quiz questions for these words${
+      context ? ` in the context of ${context}` : ""
+    }:
+${words.map((w) => `- ${w.value}: ${w.meaning}`).join("\n")}
 
 Instructions:
 1. Create one quiz question for each word
@@ -110,30 +126,31 @@ Instructions:
 Ensure the response is a valid JSON object with all required fields.`;
 
     const response = await llm.completion({
-      model: "gpt-4",
+      // model: "gpt-4",
       messages: [
         {
           role: "system",
-          content: "You are a language learning quiz generator. Create challenging, context-aware questions. You must return a valid JSON object following the exact format specified."
+          content:
+            "You are a language learning quiz generator. Create challenging, context-aware questions. You must return a valid JSON object following the exact format specified.",
         },
         {
           role: "user",
-          content: prompt
-        }
+          content: prompt,
+        },
       ],
       temperature: 0.9,
-      max_tokens: 1000
+      max_tokens: 1000,
     });
 
     try {
       const content = response.choices[0].message.content;
-      if (!content) throw new Error('No content in response');
-      
+      if (!content) throw new Error("No content in response");
+
       const parsed = JSON.parse(content);
       return parsed.questions || [];
     } catch (error) {
-      console.error('Error parsing quiz questions response:', error);
+      console.error("Error parsing quiz questions response:", error);
       return [];
     }
-  }
+  },
 };
