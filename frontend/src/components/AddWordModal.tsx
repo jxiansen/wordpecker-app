@@ -15,12 +15,12 @@ import {
   Text,
   Box,
   Flex,
-  Icon
-} from '@chakra-ui/react';
-import { keyframes } from '@chakra-ui/system';
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FaSearch } from 'react-icons/fa';
+  Icon,
+} from "@chakra-ui/react";
+import { keyframes } from "@chakra-ui/system";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { FaSearch } from "react-icons/fa";
 
 const sparkle = keyframes`
   0% { transform: scale(1) rotate(0deg); }
@@ -39,16 +39,20 @@ interface AddWordModalProps {
   listName: string;
 }
 
-export const AddWordModal = ({ isOpen, onClose, onAddWord, listName }: AddWordModalProps) => {
-  const [word, setWord] = useState('');
+export const AddWordModal = ({
+  isOpen,
+  onClose,
+  onAddWord,
+}: AddWordModalProps) => {
+  const [word, setWord] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 
   const handleSubmit = async () => {
     if (!word.trim()) {
       toast({
-        title: 'Word is required',
-        status: 'error',
+        title: "Word is required",
+        status: "error",
         duration: 2000,
         isClosable: true,
       });
@@ -59,19 +63,20 @@ export const AddWordModal = ({ isOpen, onClose, onAddWord, listName }: AddWordMo
     try {
       await onAddWord(word.trim());
       toast({
-        title: '🪵 Word found!',
-        description: 'Finding the perfect meaning for your word...',
-        status: 'success',
+        title: "🪵 Word found!",
+        description: "Finding the perfect meaning for your word...",
+        status: "success",
         duration: 2000,
         isClosable: true,
       });
-      setWord('');
+      setWord("");
       onClose();
     } catch (error) {
       toast({
-        title: 'Failed to add word',
-        description: error instanceof Error ? error.message : 'Unknown error occurred',
-        status: 'error',
+        title: "Failed to add word",
+        description:
+          error instanceof Error ? error.message : "Unknown error occurred",
+        status: "error",
         duration: 2000,
         isClosable: true,
       });
@@ -81,7 +86,7 @@ export const AddWordModal = ({ isOpen, onClose, onAddWord, listName }: AddWordMo
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSubmit();
     }
@@ -98,13 +103,13 @@ export const AddWordModal = ({ isOpen, onClose, onAddWord, listName }: AddWordMo
         >
           <ModalHeader color="white">
             <Flex align="center" gap={2}>
-              <Icon 
-                as={FaSearch} 
-                boxSize={6} 
+              <Icon
+                as={FaSearch}
+                boxSize={6}
                 color="orange.400"
                 animation={`${sparkle} 2s ease infinite`}
               />
-              <Text 
+              <Text
                 bgGradient="linear(to-r, orange.400, brand.400)"
                 bgClip="text"
                 fontSize="2xl"
@@ -125,8 +130,8 @@ export const AddWordModal = ({ isOpen, onClose, onAddWord, listName }: AddWordMo
                   onKeyPress={handleKeyPress}
                   bg="slate.700"
                   borderColor="slate.600"
-                  _hover={{ borderColor: 'slate.500' }}
-                  _focus={{ borderColor: 'brand.400', boxShadow: 'none' }}
+                  _hover={{ borderColor: "slate.500" }}
+                  _focus={{ borderColor: "brand.400", boxShadow: "none" }}
                   color="white"
                   size="lg"
                   autoFocus
@@ -147,8 +152,8 @@ export const AddWordModal = ({ isOpen, onClose, onAddWord, listName }: AddWordMo
               loadingText="Finding word 🪵"
               leftIcon={<Icon as={FaSearch} boxSize={5} />}
               _hover={{
-                transform: 'translateY(-2px)',
-                animation: `${sparkle} 1s ease infinite`
+                transform: "translateY(-2px)",
+                animation: `${sparkle} 1s ease infinite`,
               }}
               transition="all 0.2s"
             >
@@ -159,4 +164,4 @@ export const AddWordModal = ({ isOpen, onClose, onAddWord, listName }: AddWordMo
       </ModalContent>
     </Modal>
   );
-}; 
+};
